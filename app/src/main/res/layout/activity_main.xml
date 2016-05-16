@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:text="Sign Up"
             android:id="@+id/button"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="clickSignUpMain" />
 
         <Button
             android:layout_width="wrap_content"
