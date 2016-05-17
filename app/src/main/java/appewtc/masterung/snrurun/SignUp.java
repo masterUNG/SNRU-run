@@ -54,7 +54,7 @@ public class SignUp extends AppCompatActivity {
                         break;
                     case R.id.radioButton2:
                         avataString = "1";
-                         break;
+                        break;
                     case R.id.radioButton3:
                         avataString = "2";
                         break;
