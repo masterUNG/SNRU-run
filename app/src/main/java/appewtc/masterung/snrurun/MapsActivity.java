@@ -14,6 +14,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -25,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Criteria criteria;
     private double myLatADouble, myLngADouble;
     private boolean gpsABoolean, networkABoolean;
+    private String[] userStrings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setAltitudeRequired(false);
         criteria.setBearingRequired(false);
+
+        //Receive from Intent
+        userStrings = getIntent().getStringArrayExtra("User");
 
     }   // Main Method
 
@@ -136,6 +149,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("18May16", "myLat = " + myLatADouble);
         Log.d("18May16", "myLng = " + myLngADouble);
 
+        updateLocation();
+
 
 
 
@@ -148,5 +163,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }, 3000);
 
     }   // myLoop
+
+    private void updateLocation() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add("isAdd", "true")
+                .add("id", userStrings[0])
+                .add("Lat", Double.toString(myLatADouble))
+                .add("Lng", Double.toString(myLngADouble))
+                .build();
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url("http://swiftcodingthai.com/snru/edit_location.php").post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+            }
+        });
+
+
+
+    }   // updateLocation
 
 }   // Main Class
