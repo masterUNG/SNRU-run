@@ -98,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "ยินดีต้อนรับ " + userStrings[1], Toast.LENGTH_SHORT).show();
 
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                intent.putExtra("User", userStrings);
+                startActivity(intent);
+                finish();
+
             } else {
 
                 MyAlert myAlert = new MyAlert();
