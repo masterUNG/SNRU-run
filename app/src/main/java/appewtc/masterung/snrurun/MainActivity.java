@@ -60,6 +60,16 @@ public class MainActivity extends AppCompatActivity {
 
     }   // Main Method
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+       deleteAllSQLite();
+        MySynchronize mySynchronize = new MySynchronize();
+        mySynchronize.execute();
+
+    }
+
     public void clickSignIn(View view) {
 
         userString = userEditText.getText().toString().trim();
