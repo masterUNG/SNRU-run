@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.okhttp.Call;
@@ -109,7 +110,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     LatLng latLng = new LatLng(Double.parseDouble(latStrings[i]),
                             Double.parseDouble(lngStrings[i]));
-                    mMap.addMarker(new MarkerOptions().position(latLng));
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                    .icon(BitmapDescriptorFactory.fromResource(findIcon(avataStrings[i]))));
 
 
                 }   // for
@@ -121,6 +124,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }   // onPost
 
     }   // SynLocation Class
+
+    private int findIcon(String avataString) {
+
+        int intIcon = R.drawable.bird48;
+
+        switch (Integer.parseInt(avataString)) {
+            case 0:
+                intIcon = R.drawable.bird48;
+                break;
+            case 1:
+                intIcon = R.drawable.doremon48;
+                break;
+            case 2:
+                intIcon = R.drawable.kon48;
+                break;
+            case 3:
+                intIcon = R.drawable.nobita48;
+                break;
+            case 4:
+                intIcon = R.drawable.rat48;
+                break;
+        }
+
+        return intIcon;
+    }
 
     @Override
     protected void onResume() {
