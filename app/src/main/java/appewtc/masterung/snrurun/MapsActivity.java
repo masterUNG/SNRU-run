@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -22,6 +23,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -63,8 +67,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected String doInBackground(Void... voids) {
-            return null;
+
+            try {
+
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                Request request = builder.url("http://swiftcodingthai.com/snru/get_user.php").build();
+                Response response = okHttpClient.newCall(request).execute();
+                return response.body().string();
+
+            } catch (Exception e) {
+                return null;
+            }
+
+            //return null;
         }   // doInBack
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            mMap.clear();
+
+            try {
+
+                JSONArray jsonArray = new JSONArray(s);
+
+                String[] nameStrings = new String[jsonArray.length()];
+                String[] latStrings = new String[jsonArray.length()];
+                String[] lngStrings = new String[jsonArray.length()];
+                String[] avataStrings = new String[jsonArray.length()];
+
+                for (int i=0;i<jsonArray.length();i++) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    nameStrings[i] = jsonObject.getString("Name");
+                    latStrings[i] = jsonObject.getString("Lat");
+                    lngStrings[i] = jsonObject.getString("Lng");
+                    avataStrings[i] = jsonObject.getString("Avata");
+
+                    LatLng latLng = new LatLng(Double.parseDouble(latStrings[i]),
+                            Double.parseDouble(lngStrings[i]));
+                    mMap.addMarker(new MarkerOptions().position(latLng));
+
+
+                }   // for
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }   // onPost
 
     }   // SynLocation Class
 
@@ -179,7 +233,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void createAllMarker() {
 
-
+        SynLocation synLocation = new SynLocation();
+        synLocation.execute();
 
     }   // createAllMarker
 
