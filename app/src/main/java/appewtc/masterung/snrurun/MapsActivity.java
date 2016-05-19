@@ -41,6 +41,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double myLatADouble, myLngADouble;
     private boolean gpsABoolean, networkABoolean;
     private String[] userStrings;
+    private double[] buildLatDoubles = {17.1939512, 17.19157333, 17.18640751, 17.18970791};
+    private double[] buildLngDoubles = {104.0908885, 104.09533024, 104.09294844, 104.08822775};
+    private int[] buildInts = {R.drawable.build1, R.drawable.build2, R.drawable.build3, R.drawable.build4};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             super.onPostExecute(s);
 
             mMap.clear();
+
+            for (int i=0;i<buildLatDoubles.length;i++) {
+                LatLng latLng = new LatLng(buildLatDoubles[i], buildLngDoubles[i]);
+                mMap.addMarker(new MarkerOptions().position(latLng)
+                .icon(BitmapDescriptorFactory.fromResource(buildInts[i])));
+            }
+
 
             try {
 
