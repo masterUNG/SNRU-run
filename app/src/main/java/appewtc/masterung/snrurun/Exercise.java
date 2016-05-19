@@ -26,7 +26,7 @@ public class Exercise extends AppCompatActivity {
             choice3RadioButton, choice4RadioButton;
     private String[] questionStrings, choice1Strings,
             choice2Strings, choice3Strings, choice4Strings, answerStrings;
-    private int timesAnInt = 1;
+    private int timesAnInt = 1, chooseAnInt;
 
 
     @Override
@@ -39,10 +39,63 @@ public class Exercise extends AppCompatActivity {
         SynQuestion synQuestion = new SynQuestion();
         synQuestion.execute();
 
+        radioController();
+
     }   // Main Method
+
+    private void radioController() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                switch (i) {
+                    case R.id.radioButton6:
+                        chooseAnInt = 1;
+                        break;
+                    case R.id.radioButton7:
+                        chooseAnInt = 2;
+                        break;
+                    case R.id.radioButton8:
+                        chooseAnInt = 3;
+                        break;
+                    case R.id.radioButton9:
+                        chooseAnInt = 4;
+                        break;
+                }
+
+            }   // onChecked
+        });
+    }
 
     public void clickAnswer(View view) {
 
+        if (!checkRadio()) {
+            MyAlert myAlert = new MyAlert();
+            myAlert.myDialog(this, "ยังไม่ได้เลือกคำตอบ", "โปรเลือกคำตอบ");
+        }
+
+
+
+        radioGroup.clearCheck();
+    }   // clickAnswer
+
+    private boolean checkRadio() {
+
+        boolean myResult;
+
+        if (choice1RadioButton.isChecked()) {
+            myResult = true;
+        } else if (choice2RadioButton.isChecked()) {
+            myResult = true;
+        } else if (choice3RadioButton.isChecked()) {
+            myResult = true;
+        } else if (choice4RadioButton.isChecked()) {
+            myResult = true;
+        } else {
+            myResult = false;   // Non Check
+        }
+
+        return myResult;
     }
 
     public class SynQuestion extends AsyncTask<Void, Void, String> {
@@ -111,7 +164,6 @@ public class Exercise extends AppCompatActivity {
         choice2RadioButton.setText(choice2Strings[index]);
         choice3RadioButton.setText(choice3Strings[index]);
         choice4RadioButton.setText(choice4Strings[index]);
-
 
 
     }   // changeView
