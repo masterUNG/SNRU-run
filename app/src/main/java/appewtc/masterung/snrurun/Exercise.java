@@ -26,7 +26,7 @@ public class Exercise extends AppCompatActivity {
             choice3RadioButton, choice4RadioButton;
     private String[] questionStrings, choice1Strings,
             choice2Strings, choice3Strings, choice4Strings, answerStrings;
-    private int timesAnInt = 1, chooseAnInt, scoreAnInt = 0, amount;
+    private int timesAnInt = 1, chooseAnInt, scoreAnInt = 0, amount, answerTrue;
 
 
     @Override
@@ -72,14 +72,19 @@ public class Exercise extends AppCompatActivity {
         if (!checkRadio()) {
             MyAlert myAlert = new MyAlert();
             myAlert.myDialog(this, "ยังไม่ได้เลือกคำตอบ", "โปรเลือกคำตอบ");
-        } else if (timesAnInt == 6) {
+        } else if (timesAnInt == 5) {
             MyAlert myAlert = new MyAlert();
             myAlert.myDialog(this, "Score" , "Score = " + Integer.toString(scoreAnInt));
         } else {
 
+            if (chooseAnInt == answerTrue) {
+                scoreAnInt += 1;
+            }
+
+
             Random random = new Random();
             changeView(random.nextInt(amount));
-            timesAnInt += 1;
+
 
         }
 
@@ -174,7 +179,8 @@ public class Exercise extends AppCompatActivity {
         choice2RadioButton.setText(choice2Strings[index]);
         choice3RadioButton.setText(choice3Strings[index]);
         choice4RadioButton.setText(choice4Strings[index]);
-
+        timesAnInt += 1;
+        answerTrue = Integer.parseInt(answerStrings[index]);
 
     }   // changeView
 
