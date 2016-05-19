@@ -112,7 +112,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Double.parseDouble(lngStrings[i]));
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
-                    .icon(BitmapDescriptorFactory.fromResource(findIcon(avataStrings[i]))));
+                    .icon(BitmapDescriptorFactory.fromResource(findIcon(avataStrings[i])))
+                    .title(nameStrings[i]));
 
 
                 }   // for
