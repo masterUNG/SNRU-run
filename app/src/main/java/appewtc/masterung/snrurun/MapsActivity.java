@@ -1,6 +1,9 @@
 package appewtc.masterung.snrurun;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -72,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
         dist = Math.acos(dist);
         dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515 * 1.609344;
+        dist = dist * 60 * 1.1515 * 1.609344 * 1000;
 
 
         return (dist);
@@ -321,8 +324,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        //Check Distance
+        double myDistance = distance(myLatADouble, myLngADouble,
+                buildLatDoubles[0], buildLngDoubles[0]);
+        Log.d("19May", "myDistance ==> " + myDistance);
+
+        if (myDistance < 50) {
+            showAlert();
+        }
+
 
 
     }   // updateLocation
+
+    private void showAlert() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.doremon48);
+        builder.setTitle("ด่านที่ 1");
+        builder.setMessage("คุณถึงด่านที่ 1 แล้ว");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(MapsActivity.this, Exercise.class);
+                intent.putExtra("User", userStrings);
+                startActivity(intent);
+
+            }
+        });
+        builder.show();
+
+    }
 
 }   // Main Class
